@@ -14,6 +14,7 @@ public class Usuario
     [StringLength(45)]
     public string Nombre { get; set;} = string.Empty;
     public int MyProperty { get; set; }
+    public int asdMyProperty { get; set; }
     public Usuario()
     {
     }
