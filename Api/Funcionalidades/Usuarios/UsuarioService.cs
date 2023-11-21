@@ -21,3 +21,4 @@ public class UsuarioService : IUsuarioService
         return context.usuarios.Select(x => new UsuarioQueryDto { Id = x.Id, Nombre = x.Nombre }).ToList();
     }
 }
+
