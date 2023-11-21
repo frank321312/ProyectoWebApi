@@ -15,6 +15,4 @@ public class TicketQueryDto
     public Usuario? UsuarioTicket { get; set; } = null;
     public string Estado { get; set; } = "Abierto";
     public Comentario? ComentarioTicket { get; set; } = null;
-    public int MyProperty { get; set; }
-    public int dsaMyProperty { get; set; }
 }
