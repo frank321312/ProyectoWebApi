@@ -17,6 +17,7 @@ public interface IProyectoService
     void AsignarActividad(Guid ticketId, Guid usuarioId);
     void ModifcarEstadoTicket(Guid ticketId, string estado);
     void DeleteUsuarioProject(Guid usuarioId);
+    void DejarComentario(Guid ticketId, Guid usuarioId, string texto);
 } 
 
 public class ProyectoService : IProyectoService
@@ -150,6 +151,33 @@ public class ProyectoService : IProyectoService
                 foreach (var index_1 in Verificar_Usuario)
                 {
                     index_1.Usuarios.Remove(usuario);    
+                }
+                
+                context.SaveChanges();
+            }
+        }
+    }
+
+    public void DejarComentario(Guid ticketId, Guid usuarioId, string texto)
+    {
+        var ticket = context.tickets.FirstOrDefault(x => x.Id == ticketId);
+        var usuario = context.usuarios.FirstOrDefault(x => x.Id == usuarioId);
+
+        if (ticket != null && usuario != null)
+        {
+            var Verificar_Usuario_Ticket = context.proyectos
+                .Where(x => x.Usuarios
+                .Any(y => y.Id == usuarioId))
+                .ToList();
+
+            if (Verificar_Usuario_Ticket.Count > 0)
+            {
+                foreach (var Listticket in Verificar_Usuario_Ticket)
+                {
+                    foreach (var index in Listticket.Tickets)
+                    {
+                        index.ComentarioTicket = 
+                    }    
                 }
                 
                 context.SaveChanges();

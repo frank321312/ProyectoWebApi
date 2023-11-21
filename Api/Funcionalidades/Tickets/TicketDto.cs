@@ -13,4 +13,5 @@ public class TicketQueryDto
     public string Nombre { get; set; } = string.Empty;
     public Usuario? UsuarioTicket { get; set; } = null;
     public string Estado { get; set; } = "Abierto";
+    public Comentario? ComentarioTicket { get; set; } = null;
 }

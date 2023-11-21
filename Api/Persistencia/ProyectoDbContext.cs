@@ -12,7 +12,7 @@ public class ProyectoDbContext : DbContext
     public DbSet<Usuario> usuarios { get; set; }
     public DbSet<Ticket> tickets { get; set; }
     public DbSet<Proyecto> proyectos { get; set; }
-
+    public DbSet<Comentario> comentarios { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Usuario>().HasData(
@@ -31,6 +31,12 @@ public class ProyectoDbContext : DbContext
             new Proyecto("Proyecto_1"),
             new Proyecto("Proyecto_2"),
             new Proyecto("Proyecto_3")
+        );
+
+        modelBuilder.Entity<Comentario>().HasData(
+            new Comentario("Sin comentarios_1"),
+            new Comentario("Sin comentarios_2"),
+            new Comentario("Sin comentarios_3")
         );
     }
 }

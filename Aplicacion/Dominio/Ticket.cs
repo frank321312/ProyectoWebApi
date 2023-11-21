@@ -22,7 +22,7 @@ public class Ticket
     
     [Required]
     public string Estado { get; set; } = "Abierto";
-    // public Actividad ActividadTicket { get; set; } 
+    public Comentario? ComentarioTicket { get; set; } = null;
     public Ticket()
     {
     }
