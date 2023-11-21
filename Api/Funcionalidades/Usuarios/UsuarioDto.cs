@@ -7,6 +7,6 @@ public class UsuarioCommandDto
 
 public class UsuarioQueryDto
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
     public string Nombre { get; set; } = string.Empty;
 }

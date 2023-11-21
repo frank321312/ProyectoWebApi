@@ -20,7 +20,7 @@ public class TicketService : ITicketService
     }
     public List<TicketQueryDto> GetTickets()
     {
-        return context.tickets.Select(x => new TicketQueryDto { Id = x.Id, Nombre = x.Nombre, UsuarioTicket = x.UsuarioTicket, Estado = x.Estado, ComentarioTicket = x.ComentarioTicket}).ToList();
+        return context.tickets.Select(x => new TicketQueryDto { Id = x.Id, Nombre = x.Nombre, UsuarioTicket = x.UsuarioTicket, Estado = x.Estado, ComentarioTicket = x.ComentarioTicket }).ToList();
     }
 }
 

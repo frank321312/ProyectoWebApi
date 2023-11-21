@@ -9,7 +9,8 @@ public class ComentarioDto
 
 public class ComentarioQueryDto
 {
+    public Guid IdComentario { get; set; } = Guid.NewGuid();
     public Usuario? UsuarioComentario { get; set; } = null;
     public string Contenido { get; set; } = string.Empty;
-    public DateTime? FechaComentario { get; set; } = null;
+    public DateTime FechaComentario { get; set; } = DateTime.MinValue;
 }

@@ -3,6 +3,7 @@ using Api.Persistencia;
 using Api.Funcionalidades.Tickets;
 using Microsoft.EntityFrameworkCore;
 using Api.Funcionalidades.Usuarios;
+using Api.Funcionalidades.Comentarios;
 
 namespace Api.Funcionalidades.Proyectos;
 
@@ -11,14 +12,14 @@ public interface IProyectoService
     List<ProyectoQueryDto> GetProyectos();
     void CreateTicketProject(TicketCommandDto ticketCommandDto, Guid proyectoId);
     void CreateProject(ProyectoCommandDto proyectoCommandDto);
-    void CreateUser(UsuarioCommandDto usuarioCommandDto, Guid proyectoId);
     void DeleteTicket(Guid ticketId);
-    // void DeleteUsuario(Guid usuarioId);
     void AsignarActividad(Guid ticketId, Guid usuarioId);
     void ModifcarEstadoTicket(Guid ticketId, string estado);
-    void DeleteUsuarioProject(Guid usuarioId);
-    void DejarComentario(Guid ticketId, Guid usuarioId, string texto);
-} 
+    void DeleteUsuarioProject(Guid usuarioId, Guid ticketId);
+    void AsignarUsuarioProyecto(Guid usuarioId, Guid proyectoId);
+    void DejarComentario(Guid ticketId, Guid usuarioId, ComentarioDto comentarioDto);
+    void CrearComentario(Guid ticketId, Guid usuarioId, ComentarioDto comentarioDto);
+}
 
 public class ProyectoService : IProyectoService
 {
@@ -35,7 +36,7 @@ public class ProyectoService : IProyectoService
             {
                 Id = x.IdProject,
                 Nombre = x.Nombre,
-                Tickets = x.Tickets.Select(y => new TicketQueryDto { Id = y.Id, Nombre = y.Nombre, UsuarioTicket = y.UsuarioTicket}).ToList(),
+                Tickets = x.Tickets.Select(y => new TicketQueryDto { Id = y.Id, Nombre = y.Nombre, UsuarioTicket = y.UsuarioTicket, ComentarioTicket = y.ComentarioTicket }).ToList(),
                 Usuarios = x.Usuarios.Select(y => new UsuarioQueryDto { Id = y.Id, Nombre = y.Nombre }).ToList()
             }).ToList();
     }
@@ -63,22 +64,6 @@ public class ProyectoService : IProyectoService
         context.SaveChanges();
     }
 
-    public void CreateUser(UsuarioCommandDto usuarioCommandDto, Guid proyectoId)
-    {
-        var proyecto = context.proyectos.FirstOrDefault(x => x.IdProject == proyectoId);
-        
-        if (proyecto != null)
-        {
-            var nuevoUsuario = new Usuario(usuarioCommandDto.Nombre);
-
-            context.usuarios.Add(nuevoUsuario);
-
-            proyecto.Usuarios.Add(nuevoUsuario);
-
-            context.SaveChanges();
-        }
-    }
-
     public void DeleteTicket(Guid ticketId)
     {
         var eliminarTicket = context.tickets.FirstOrDefault(x => x.Id == ticketId);
@@ -91,18 +76,6 @@ public class ProyectoService : IProyectoService
         }
     }
 
-    // public void DeleteUsuario(Guid usuarioId)
-    // {
-    //     var eliminarUsuario = context.usuarios.FirstOrDefault(x => x.Id == usuarioId);
-
-    //     if (eliminarUsuario != null)
-    //     {
-    //         context.usuarios.Remove(eliminarUsuario);
-        
-    //         context.SaveChanges();
-    //     }
-    // }
-
     public void AsignarActividad(Guid ticketId, Guid usuarioId)
     {
         var usuario = context.usuarios.FirstOrDefault(x => x.Id == usuarioId);
@@ -113,7 +86,7 @@ public class ProyectoService : IProyectoService
             var VerificarTicket_Usuario = context.proyectos.Where(x => x.Tickets
                 .Any(y => y.Id == ticketId) && x.Usuarios
                 .Any(y => y.Id == usuarioId)).ToList();
-            
+
             if (VerificarTicket_Usuario.Count > 0)
             {
                 ticket.AgregarUsuario(usuario);
@@ -135,11 +108,12 @@ public class ProyectoService : IProyectoService
         }
     }
 
-    public void DeleteUsuarioProject(Guid usuarioId)
+    public void DeleteUsuarioProject(Guid usuarioId, Guid ticketId)
     {
         var usuario = context.usuarios.FirstOrDefault(x => x.Id == usuarioId);
+        var ticket = context.tickets.FirstOrDefault(x => x.Id == ticketId);
 
-        if (usuario != null)
+        if (usuario != null && ticket != null)
         {
             var Verificar_Usuario = context.proyectos
                 .Where(x => x.Usuarios
@@ -150,15 +124,16 @@ public class ProyectoService : IProyectoService
             {
                 foreach (var index_1 in Verificar_Usuario)
                 {
-                    index_1.Usuarios.Remove(usuario);    
+                    ticket.UsuarioTicket = null;
+                    index_1.Usuarios.Remove(usuario);
                 }
-                
+
                 context.SaveChanges();
             }
         }
     }
 
-    public void DejarComentario(Guid ticketId, Guid usuarioId, string texto)
+    public void DejarComentario(Guid ticketId, Guid usuarioId, ComentarioDto comentarioDto)
     {
         var ticket = context.tickets.FirstOrDefault(x => x.Id == ticketId);
         var usuario = context.usuarios.FirstOrDefault(x => x.Id == usuarioId);
@@ -167,7 +142,7 @@ public class ProyectoService : IProyectoService
         {
             var Verificar_Usuario_Ticket = context.proyectos
                 .Where(x => x.Usuarios
-                .Any(y => y.Id == usuarioId))
+                .Any(y => y.Id == usuarioId) && x.Tickets.Any(y => y.Id == ticketId))
                 .ToList();
 
             if (Verificar_Usuario_Ticket.Count > 0)
@@ -176,10 +151,49 @@ public class ProyectoService : IProyectoService
                 {
                     foreach (var index in Listticket.Tickets)
                     {
-                        index.ComentarioTicket = 
-                    }    
+                        index.ComentarioTicket.Contenido = comentarioDto.Contenido;
+                    }
                 }
-                
+
+                context.SaveChanges();
+            }
+        }
+    }
+
+    public void AsignarUsuarioProyecto(Guid usuarioId, Guid proyectoId)
+    {
+        var usuario = context.usuarios.FirstOrDefault(x => x.Id == usuarioId);
+        var proyecto = context.proyectos.FirstOrDefault(x => x.IdProject == proyectoId);
+
+        if (usuario != null && proyecto != null)
+        {
+            proyecto.Usuarios.Add(usuario);
+
+            context.SaveChanges();
+        }
+    }
+
+    public void CrearComentario(Guid ticketId, Guid usuarioId, ComentarioDto comentarioDto)
+    {
+        var ticket = context.tickets.FirstOrDefault(x => x.Id == ticketId);
+        var usuario = context.usuarios.FirstOrDefault(x => x.Id == usuarioId);
+
+        if (ticket != null && usuario != null)
+        {
+            var Verificar_Usuario_Ticket = context.proyectos
+                .Where(x => x.Usuarios
+                .Any(y => y.Id == usuarioId) && x.Tickets.Any(y => y.Id == ticketId))
+                .ToList();
+
+            if (Verificar_Usuario_Ticket.Count > 0)
+            {
+                var NuevoComentario = new Comentario(comentarioDto.Contenido);
+                NuevoComentario.UsuarioComentario = usuario;
+
+                context.comentarios.Add(NuevoComentario);
+
+                ticket.AgregarComentario(NuevoComentario);
+
                 context.SaveChanges();
             }
         }

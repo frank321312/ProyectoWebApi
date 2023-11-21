@@ -9,13 +9,10 @@ public class Proyecto
     [Key]
     [Required]
     public Guid IdProject { get; set; } = Guid.NewGuid();
-    
+
     [Required]
     [StringLength(45)]
     public string Nombre { get; set; } = string.Empty;
-
-    [Timestamp] // Agregar la propiedad Timestamp para concurrencia optimista
-    public byte[]? Version { get; set; }
     public List<Usuario> Usuarios { get; set; } = new List<Usuario>();
     public List<Ticket> Tickets { get; set; } = new List<Ticket>();
     public Proyecto(string nombre)
@@ -37,7 +34,7 @@ public class Proyecto
     {
         var ticket = Tickets.Where(x => x.Id == ticketId).ToList();
 
-        foreach(var index in ticket)
+        foreach (var index in ticket)
         {
             if (index.Id == ticketId)
             {

@@ -16,10 +16,10 @@ public class Ticket
 
     [Required]
     public string Descripcion { get; set; } = string.Empty;
-    
+
     [ForeignKey("IdUsuario")]
     public Usuario? UsuarioTicket { get; set; } = null;
-    
+
     [Required]
     public string Estado { get; set; } = "Abierto";
     public Comentario? ComentarioTicket { get; set; } = null;
@@ -32,4 +32,6 @@ public class Ticket
     }
 
     public void AgregarUsuario(Usuario usuario) => UsuarioTicket = usuario;
+
+    public void AgregarComentario(Comentario comentario) => ComentarioTicket = comentario;
 }

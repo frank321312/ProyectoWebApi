@@ -6,18 +6,22 @@ namespace Aplicacion.Dominio;
 [Table("Comentario")]
 public class Comentario
 {
+    [Key]
+    [Required]
+    public Guid IdComentario { get; set; } = Guid.NewGuid();
+
     [ForeignKey("IdUsuario")]
     public Usuario? UsuarioComentario { get; set; } = null;
 
     [Required]
-    public DateTime? FechaComentario { get; set; } = null;
-    
+    public DateTime FechaComentario { get; set; } = DateTime.MinValue;
+
     [Required]
     public string Contenido { get; set; } = string.Empty;
-    
+
     public Comentario()
     {
-        
+
     }
     public Comentario(string unContenido)
     {

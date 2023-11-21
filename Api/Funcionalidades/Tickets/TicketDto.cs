@@ -1,4 +1,5 @@
 using Aplicacion.Dominio;
+using Api.Funcionalidades.Comentarios;
 
 namespace Api.Funcionalidades.Tickets;
 

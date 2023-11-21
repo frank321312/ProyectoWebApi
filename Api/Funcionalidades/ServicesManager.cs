@@ -12,7 +12,7 @@ public static class ServicesManager
         services.AddScoped<ITicketService, TicketService>();
         services.AddScoped<IProyectoService, ProyectoService>();
         services.AddScoped<IUsuarioService, UsuarioService>();
-        services.AddScoped<IComentarioService, ComentarioService>();    
+        services.AddScoped<IComentarioService, ComentarioService>();
 
         return services;
     }

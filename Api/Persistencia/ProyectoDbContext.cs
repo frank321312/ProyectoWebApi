@@ -6,7 +6,7 @@ namespace Api.Persistencia;
 public class ProyectoDbContext : DbContext
 {
     public ProyectoDbContext(DbContextOptions<ProyectoDbContext> opciones) : base(opciones)
-    {   
+    {
     }
 
     public DbSet<Usuario> usuarios { get; set; }
@@ -31,12 +31,6 @@ public class ProyectoDbContext : DbContext
             new Proyecto("Proyecto_1"),
             new Proyecto("Proyecto_2"),
             new Proyecto("Proyecto_3")
-        );
-
-        modelBuilder.Entity<Comentario>().HasData(
-            new Comentario("Sin comentarios_1"),
-            new Comentario("Sin comentarios_2"),
-            new Comentario("Sin comentarios_3")
         );
     }
 }

@@ -5,7 +5,7 @@ namespace Api.Funcionalidades.Comentarios;
 public interface IComentarioService
 {
     List<ComentarioQueryDto> GetComentarios();
-} 
+}
 
 public class ComentarioService : IComentarioService
 {
@@ -18,6 +18,6 @@ public class ComentarioService : IComentarioService
 
     public List<ComentarioQueryDto> GetComentarios()
     {
-        return context.comentarios.Select(x => new ComentarioQueryDto{ Contenido = x.Contenido, UsuarioComentario = x.UsuarioComentario, FechaComentario = x.FechaComentario}).ToList();
+        return context.comentarios.Select(x => new ComentarioQueryDto { Contenido = x.Contenido, UsuarioComentario = x.UsuarioComentario, FechaComentario = x.FechaComentario }).ToList();
     }
 }
