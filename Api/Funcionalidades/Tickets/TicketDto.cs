@@ -1,5 +1,6 @@
 using Aplicacion.Dominio;
 using Api.Funcionalidades.Comentarios;
+using Api.Funcionalidades.Usuarios;
 
 namespace Api.Funcionalidades.Tickets;
 
@@ -12,7 +13,7 @@ public class TicketQueryDto
 {
     public Guid Id { get; set; } = Guid.NewGuid();
     public string Nombre { get; set; } = string.Empty;
-    public Usuario? UsuarioTicket { get; set; } = null;
+    public UsuarioQueryDto? UsuarioTicket { get; set; } = null;
     public string Estado { get; set; } = "Abierto";
-    public Comentario? ComentarioTicket { get; set; } = null;
+    public ComentarioQueryDto? ComentarioTicket { get; set; } = null;
 }
