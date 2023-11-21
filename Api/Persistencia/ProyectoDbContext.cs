@@ -28,9 +28,9 @@ public class ProyectoDbContext : DbContext
         );
 
         modelBuilder.Entity<Proyecto>().HasData(
-            new Proyecto(),
-            new Proyecto(),
-            new Proyecto()
+            new Proyecto("Proyecto_1"),
+            new Proyecto("Proyecto_2"),
+            new Proyecto("Proyecto_3")
         );
     }
 }

@@ -21,16 +21,14 @@ public class Ticket
     public Usuario? UsuarioTicket { get; set; } = null;
     
     [Required]
-    public string Estado { get; set; } = string.Empty;
+    public string Estado { get; set; } = "Abierto";
     // public Actividad ActividadTicket { get; set; } 
     public Ticket()
     {
-        // UsuarioTicket = null;
     }
     public Ticket(string nombre)
     {
         Nombre = nombre;
-        Estado = "Abierto";
     }
 
     public void AgregarUsuario(Usuario usuario) => UsuarioTicket = usuario;
