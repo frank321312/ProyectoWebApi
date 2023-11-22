@@ -14,7 +14,7 @@ public class Comentario
     public Usuario? UsuarioComentario { get; set; } = null;
 
     [Required]
-    public DateTime FechaComentario { get; set; } = DateTime.MinValue;
+    public DateTime FechaComentario { get; set; } = DateTime.Now;
 
     [Required]
     public string Contenido { get; set; } = string.Empty;

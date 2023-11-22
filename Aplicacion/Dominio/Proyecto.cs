@@ -19,27 +19,4 @@ public class Proyecto
     {
         Nombre = nombre;
     }
-    public void AgregarTicket(Ticket ticket) => Tickets.Add(ticket);
-
-    public void EliminarTicket(Ticket ticket) => Tickets.Remove(ticket);
-
-    public void AgregarUsuario(Usuario usuario) => Usuarios.Add(usuario);
-
-    public void EliminarUsuario(Usuario usuario) => Usuarios.Remove(usuario);
-
-    public void AgregarUsuarioTicket(Ticket ticket, Usuario usuario) => ticket.AgregarUsuario(usuario);
-
-    public void CrearTicket(Ticket ticket) => Tickets.Add(ticket);
-    public void AsignarUsuario(Guid ticketId, Usuario usuario)
-    {
-        var ticket = Tickets.Where(x => x.Id == ticketId).ToList();
-
-        foreach (var index in ticket)
-        {
-            if (index.Id == ticketId)
-            {
-                index.UsuarioTicket = usuario;
-            }
-        }
-    }
 }

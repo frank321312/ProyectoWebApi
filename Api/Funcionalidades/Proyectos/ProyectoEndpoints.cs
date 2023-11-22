@@ -70,5 +70,12 @@ public class ProyectoEndpoints : ICarterModule
 
             return Results.Ok();
         });
+
+        // app.MapPut("/api/proyecto/{usuarioId}/{ticketId}/actualizar/comentario", ([FromServices] IProyectoService proyectoService, Guid ticketId, Guid usuarioId, Guid comentarioId, ComentarioDto comentarioDto) =>
+        // {
+        //     proyectoService.ActualizarComentario(ticketId, usuarioId, comentarioId, comentarioDto);
+
+        //     return Results.Ok();
+        // });
     }
 }

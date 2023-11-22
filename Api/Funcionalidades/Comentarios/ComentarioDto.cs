@@ -13,5 +13,5 @@ public class ComentarioQueryDto
     public Guid IdComentario { get; set; } = Guid.NewGuid();
     public UsuarioQueryDto? UsuarioComentario { get; set; } = null;
     public string Contenido { get; set; } = string.Empty;
-    public DateTime FechaComentario { get; set; } = DateTime.MinValue;
+    public DateTime FechaComentario { get; set; } = DateTime.Now;
 }

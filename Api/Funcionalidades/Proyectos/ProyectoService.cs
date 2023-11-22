@@ -17,7 +17,7 @@ public interface IProyectoService
     void ModifcarEstadoTicket(Guid ticketId, string estado);
     void DeleteUsuarioProject(Guid usuarioId, Guid ticketId);
     void AsignarUsuarioProyecto(Guid usuarioId, Guid proyectoId);
-    void DejarComentario(Guid ticketId, Guid usuarioId, ComentarioDto comentarioDto);
+    // void ActualizarComentario(Guid ticketId, Guid usuarioId, Guid comentarioId, ComentarioDto comentarioDto);
     void CrearComentario(Guid ticketId, Guid usuarioId, ComentarioDto comentarioDto);
 }
 
@@ -36,7 +36,7 @@ public class ProyectoService : IProyectoService
             {
                 Id = x.IdProject,
                 Nombre = x.Nombre,
-                Tickets = x.Tickets.Select(y => new TicketQueryDto { Id = y.Id, Nombre = y.Nombre, UsuarioTicket = y.UsuarioTicket, ComentarioTicket = y.ComentarioTicket }).ToList(),
+                Tickets = x.Tickets.Select(y => new TicketQueryDto { Id = y.Id, Nombre = y.Nombre, UsuarioTicket = y.UsuarioTicket != null ? new UsuarioQueryDto { Id = y.UsuarioTicket.Id, Nombre = y.UsuarioTicket.Nombre } : null, ComentarioTicket = y.ComentarioTicket != null ? new ComentarioQueryDto { IdComentario = y.ComentarioTicket.IdComentario, UsuarioComentario = y.ComentarioTicket.UsuarioComentario != null ? new UsuarioQueryDto { Id = y.ComentarioTicket.UsuarioComentario.Id, Nombre = y.ComentarioTicket.UsuarioComentario.Nombre } : null, Contenido = y.ComentarioTicket.Contenido, FechaComentario = y.ComentarioTicket.FechaComentario } : null }).ToList(),
                 Usuarios = x.Usuarios.Select(y => new UsuarioQueryDto { Id = y.Id, Nombre = y.Nombre }).ToList()
             }).ToList();
     }
@@ -133,32 +133,33 @@ public class ProyectoService : IProyectoService
         }
     }
 
-    public void DejarComentario(Guid ticketId, Guid usuarioId, ComentarioDto comentarioDto)
-    {
-        var ticket = context.tickets.FirstOrDefault(x => x.Id == ticketId);
-        var usuario = context.usuarios.FirstOrDefault(x => x.Id == usuarioId);
+    // public void ActualizarComentario(Guid ticketId, Guid usuarioId, Guid comentarioId, ComentarioDto comentarioDto)
+    // {
+    //     var ticket = context.tickets.FirstOrDefault(x => x.Id == ticketId);
+    //     var usuario = context.usuarios.FirstOrDefault(x => x.Id == usuarioId);
+    //     var comemtario = context.comentarios.FirstOrDefault(x => x.IdComentario == comentarioId);
 
-        if (ticket != null && usuario != null)
-        {
-            var Verificar_Usuario_Ticket = context.proyectos
-                .Where(x => x.Usuarios
-                .Any(y => y.Id == usuarioId) && x.Tickets.Any(y => y.Id == ticketId))
-                .ToList();
+    //     if (ticket != null && usuario != null && comemtario != null)
+    //     {
+    //         var ComentarioAntiguo = comemtario;
 
-            if (Verificar_Usuario_Ticket.Count > 0)
-            {
-                foreach (var Listticket in Verificar_Usuario_Ticket)
-                {
-                    foreach (var index in Listticket.Tickets)
-                    {
-                        index.ComentarioTicket.Contenido = comentarioDto.Contenido;
-                    }
-                }
+    //         context.comentarios.Add(ComentarioAntiguo);
 
-                context.SaveChanges();
-            }
-        }
-    }
+    //         var Verificar_Usuario_Ticket = context.proyectos
+    //             .Where(x => x.Usuarios
+    //             .Any(y => y.Id == usuarioId) && x.Tickets.Any(y => y.Id == ticketId))
+    //             .ToList();
+
+    //         if (Verificar_Usuario_Ticket.Count > 0)
+    //         {
+    //             comemtario.Contenido = comentarioDto.Contenido;
+
+    //             comemtario.FechaComentario = DateTime.Now;
+
+    //             context.SaveChanges();
+    //         }
+    //     }
+    // }
 
     public void AsignarUsuarioProyecto(Guid usuarioId, Guid proyectoId)
     {
@@ -192,7 +193,7 @@ public class ProyectoService : IProyectoService
 
                 context.comentarios.Add(NuevoComentario);
 
-                ticket.AgregarComentario(NuevoComentario);
+                ticket.ComentarioTicket = NuevoComentario;
 
                 context.SaveChanges();
             }
