@@ -17,7 +17,6 @@ public interface IProyectoService
     void ModifcarEstadoTicket(Guid ticketId, string estado);
     void DeleteUsuarioProject(Guid usuarioId, Guid ticketId);
     void AsignarUsuarioProyecto(Guid usuarioId, Guid proyectoId);
-    // void ActualizarComentario(Guid ticketId, Guid usuarioId, Guid comentarioId, ComentarioDto comentarioDto);
     void CrearComentario(Guid ticketId, Guid usuarioId, ComentarioDto comentarioDto);
 }
 
