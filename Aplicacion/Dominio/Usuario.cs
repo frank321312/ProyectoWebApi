@@ -13,6 +13,9 @@ public class Usuario
     [Required]
     [StringLength(45)]
     public string Nombre { get; set;} = string.Empty;
+
+    [ForeignKey("IdProyecto")]
+    public Proyecto? ProyectoUsuario { get; set; } = null;
     public Usuario()
     {
     }

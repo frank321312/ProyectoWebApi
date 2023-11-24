@@ -16,4 +16,5 @@ public class TicketQueryDto
     public UsuarioQueryDto? UsuarioTicket { get; set; } = null;
     public string Estado { get; set; } = "Abierto";
     public ComentarioQueryDto? ComentarioTicket { get; set; } = null;
+    public DateTime FechaTicket { get; set; } = DateTime.Now;
 }

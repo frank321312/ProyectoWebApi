@@ -29,53 +29,46 @@ public class ProyectoEndpoints : ICarterModule
             return Results.Ok();
         });
 
-        app.MapDelete("/api/proyecto/{ticketId}/ticket", ([FromServices] IProyectoService proyectoService, Guid ticketId) =>
+        app.MapDelete("/api/ticket/{ticketId}/", ([FromServices] IProyectoService proyectoService, Guid ticketId) =>
         {
             proyectoService.DeleteTicket(ticketId);
 
             return Results.Ok();
         });
 
-        app.MapPut("/api/proyecto/{ticketId}/{usuarioId}", ([FromServices] IProyectoService proyectoService, Guid ticketId, Guid usuarioId) =>
+        app.MapPut("/api/ticket/{ticketId}/usuario/{usuarioId}", ([FromServices] IProyectoService proyectoService, Guid ticketId, Guid usuarioId) =>
         {
             proyectoService.AsignarActividad(ticketId, usuarioId);
 
             return Results.Ok();
         });
 
-        app.MapPut("/api/proyecto/{ticketId}/estado", ([FromServices] IProyectoService proyectoService, Guid ticketId, string estado) =>
+        app.MapPut("/api/ticket/{ticketId}/estado", ([FromServices] IProyectoService proyectoService, Guid ticketId, string estado) =>
         {
             proyectoService.ModifcarEstadoTicket(ticketId, estado);
 
             return Results.Ok();
         });
 
-        app.MapDelete("/api/proyecto/{usuarioId}/usuario", ([FromServices] IProyectoService proyectoService, Guid usuarioId, Guid ticketId) =>
+        app.MapDelete("/api/usuario/{usuarioId}/ticket{ticketId}", ([FromServices] IProyectoService proyectoService, Guid usuarioId, Guid ticketId) =>
         {
             proyectoService.DeleteUsuarioProject(usuarioId, ticketId);
 
             return Results.Ok();
         });
 
-        app.MapPost("/api/proyecto/{usuarioId}/{proyectoId}", ([FromServices] IProyectoService proyectoService, Guid usuarioId, Guid proyectoId) =>
+        app.MapPost("/api/proyecto/{proyectoId}/usuario/{usuarioId}", ([FromServices] IProyectoService proyectoService, Guid usuarioId, Guid proyectoId) =>
         {
             proyectoService.AsignarUsuarioProyecto(usuarioId, proyectoId);
 
             return Results.Ok();
         });
 
-        app.MapPost("/api/proyecto/{usuarioId}/{ticketId}/comentario", ([FromServices] IProyectoService proyectoService, Guid ticketId, Guid usuarioId, ComentarioDto comentarioDto) =>
+        app.MapPost("/api/usuario/{usuarioId}/ticket/{ticketId}/comentario", ([FromServices] IProyectoService proyectoService, Guid ticketId, Guid usuarioId, ComentarioDto comentarioDto) =>
         {
             proyectoService.CrearComentario(ticketId, usuarioId, comentarioDto);
 
             return Results.Ok();
         });
-
-        // app.MapPut("/api/proyecto/{usuarioId}/{ticketId}/actualizar/comentario", ([FromServices] IProyectoService proyectoService, Guid ticketId, Guid usuarioId, Guid comentarioId, ComentarioDto comentarioDto) =>
-        // {
-        //     proyectoService.ActualizarComentario(ticketId, usuarioId, comentarioId, comentarioDto);
-
-        //     return Results.Ok();
-        // });
     }
 }

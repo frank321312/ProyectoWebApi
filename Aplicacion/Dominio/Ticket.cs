@@ -17,12 +17,20 @@ public class Ticket
     [Required]
     public string Descripcion { get; set; } = string.Empty;
 
+    [Required]
+    public DateTime FechaTicket { get; set; } = DateTime.Now;
+
     [ForeignKey("IdUsuario")]
     public Usuario? UsuarioTicket { get; set; } = null;
 
     [Required]
     public string Estado { get; set; } = "Abierto";
+
+    [ForeignKey("IdComentario")]
     public Comentario? ComentarioTicket { get; set; } = null;
+
+    [ForeignKey("IdProyecto")]
+    public Proyecto? ProyectoTicket { get; set; } = null;
     public Ticket()
     {
     }

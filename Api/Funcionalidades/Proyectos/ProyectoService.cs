@@ -36,7 +36,7 @@ public class ProyectoService : IProyectoService
             {
                 Id = x.IdProject,
                 Nombre = x.Nombre,
-                Tickets = x.Tickets.Select(y => new TicketQueryDto { Id = y.Id, Nombre = y.Nombre, UsuarioTicket = y.UsuarioTicket != null ? new UsuarioQueryDto { Id = y.UsuarioTicket.Id, Nombre = y.UsuarioTicket.Nombre } : null, ComentarioTicket = y.ComentarioTicket != null ? new ComentarioQueryDto { IdComentario = y.ComentarioTicket.IdComentario, UsuarioComentario = y.ComentarioTicket.UsuarioComentario != null ? new UsuarioQueryDto { Id = y.ComentarioTicket.UsuarioComentario.Id, Nombre = y.ComentarioTicket.UsuarioComentario.Nombre } : null, Contenido = y.ComentarioTicket.Contenido, FechaComentario = y.ComentarioTicket.FechaComentario } : null }).ToList(),
+                Tickets = x.Tickets.Select(y => new TicketQueryDto { Id = y.Id, Nombre = y.Nombre, Estado = y.Estado, FechaTicket = y.FechaTicket ,UsuarioTicket = y.UsuarioTicket != null ? new UsuarioQueryDto { Id = y.UsuarioTicket.Id, Nombre = y.UsuarioTicket.Nombre } : null, ComentarioTicket = y.ComentarioTicket != null ? new ComentarioQueryDto { IdComentario = y.ComentarioTicket.IdComentario, UsuarioComentario = y.ComentarioTicket.UsuarioComentario != null ? new UsuarioQueryDto { Id = y.ComentarioTicket.UsuarioComentario.Id, Nombre = y.ComentarioTicket.UsuarioComentario.Nombre } : null, Contenido = y.ComentarioTicket.Contenido, FechaComentario = y.ComentarioTicket.FechaComentario } : null }).ToList(),
                 Usuarios = x.Usuarios.Select(y => new UsuarioQueryDto { Id = y.Id, Nombre = y.Nombre }).ToList()
             }).ToList();
     }
@@ -132,34 +132,6 @@ public class ProyectoService : IProyectoService
             }
         }
     }
-
-    // public void ActualizarComentario(Guid ticketId, Guid usuarioId, Guid comentarioId, ComentarioDto comentarioDto)
-    // {
-    //     var ticket = context.tickets.FirstOrDefault(x => x.Id == ticketId);
-    //     var usuario = context.usuarios.FirstOrDefault(x => x.Id == usuarioId);
-    //     var comemtario = context.comentarios.FirstOrDefault(x => x.IdComentario == comentarioId);
-
-    //     if (ticket != null && usuario != null && comemtario != null)
-    //     {
-    //         var ComentarioAntiguo = comemtario;
-
-    //         context.comentarios.Add(ComentarioAntiguo);
-
-    //         var Verificar_Usuario_Ticket = context.proyectos
-    //             .Where(x => x.Usuarios
-    //             .Any(y => y.Id == usuarioId) && x.Tickets.Any(y => y.Id == ticketId))
-    //             .ToList();
-
-    //         if (Verificar_Usuario_Ticket.Count > 0)
-    //         {
-    //             comemtario.Contenido = comentarioDto.Contenido;
-
-    //             comemtario.FechaComentario = DateTime.Now;
-
-    //             context.SaveChanges();
-    //         }
-    //     }
-    // }
 
     public void AsignarUsuarioProyecto(Guid usuarioId, Guid proyectoId)
     {
